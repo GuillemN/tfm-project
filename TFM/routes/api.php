@@ -33,21 +33,25 @@ Route::get('/estanys/{id}/rutes', [EstanyController::class, 'getRutesPerEstany']
 Route::get('/vies-ferrades', [ViaFerradaController::class, 'index']);
 Route::get('/vies-ferrades/{id}', [ViaFerradaController::class, 'getById']);
 
+Route::get('/test', function () {
+    return response()->json(['message' => 'Backend is working! 🚀']);
+});
+
 // Rutes protegides per autenticació amb Sanctum
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+    // Estats dels ítems
+    Route::post('/user-item-status/toggle', [UserItemStatusController::class, 'toggle']);
+    Route::get('/user-item-status', [UserItemStatusController::class, 'list']);
 
-// Estats dels ítems
-Route::post('/user-item-status/toggle', [UserItemStatusController::class, 'toggle']);
-Route::get('/user-item-status', [UserItemStatusController::class, 'list']);
-
-// Rutes d’ítems per tipus i estat
-Route::get('/user/refugis/{status}', [UserItemStatusController::class, 'getRefugisByStatus']);
-Route::get('/user/pics/{status}', [UserItemStatusController::class, 'getPicsByStatus']);
-Route::get('/user/estanys/{status}', [UserItemStatusController::class, 'getEstanysByStatus']);
-Route::get('/user/rutes/{status}', [UserItemStatusController::class, 'getRutesByStatus']);
+    // Rutes d’ítems per tipus i estat
+    Route::get('/user/refugis/{status}', [UserItemStatusController::class, 'getRefugisByStatus']);
+    Route::get('/user/pics/{status}', [UserItemStatusController::class, 'getPicsByStatus']);
+    Route::get('/user/estanys/{status}', [UserItemStatusController::class, 'getEstanysByStatus']);
+    Route::get('/user/rutes/{status}', [UserItemStatusController::class, 'getRutesByStatus']);
 
 
 
