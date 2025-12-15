@@ -18,7 +18,11 @@ return [
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => [
+        'http://localhost:4200',
+        'https://tfm-project-kimip32xe-guis-projects-d63f8f29.vercel.app',
+        'https://tfm-frontend.vercel.app', // Just in case
+    ],
 
     'allowed_origins_patterns' => [],
 
