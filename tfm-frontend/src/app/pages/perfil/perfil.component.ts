@@ -142,9 +142,7 @@ export class PerfilComponent implements OnInit {
     return item[`id_${type}`] ?? item.id;
   }
 
-  handleToggleClick(itemId: number, itemType: string, status: string, event: Event): void {
-    event.preventDefault();
-    event.stopPropagation();
-    this.toggleStatus(itemId, itemType, status as 'done' | 'wishlist');
+  handleToggleClick(event: { id: number, type: string, status: 'wishlist' | 'done' }): void {
+    this.toggleStatus(event.id, event.type, event.status);
   }
 }

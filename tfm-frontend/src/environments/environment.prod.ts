@@ -1,4 +1,5 @@
 export const environment = {
-    production: true,
-    apiUrl: 'https://tfm-tqxl.onrender.com/api'
-  };
+  production: true,
+  apiUrl: 'https://tfm-backend.onrender.com/api',
+  imageBaseUrl: '/img'
+};

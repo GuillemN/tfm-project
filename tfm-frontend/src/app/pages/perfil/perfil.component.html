@@ -6,8 +6,7 @@
       <div class="cards" *ngIf="seccio.items.length > 0; else emptyState">
         <app-card *ngFor="let item of seccio.items" [item]="item" [type]="seccio.type" [status]="seccio.status"
           [isWishlisted]="seccio.status === 'wishlist' || isWishlisted(getItemId(item, seccio.type), seccio.type)"
-          [isActive]="seccio.status === 'done'"
-          (toggle)="handleToggleClick($event.id, $event.type, $event.status, $event)">
+          [isActive]="seccio.status === 'done'" (toggle)="handleToggleClick($event)">
 
           <div details>
             <p *ngIf="item.parroquies"><strong>Parròquia:</strong> {{ item.parroquies }}</p>

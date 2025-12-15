@@ -18,7 +18,7 @@ import { LoadingComponent } from '../../components/loading/loading.component';
   styleUrls: ['./vies-ferrades.component.scss'],
 })
 export class ViesFerradesComponent extends ItemStatusBaseComponent implements OnInit {
-  vies: ViaFerrada[] = [];
+  viesFerrades: ViaFerrada[] = [];
   viesOriginals: ViaFerrada[] = [];
   filtreCamps: CampFiltre[] = [
     {
@@ -61,7 +61,7 @@ export class ViesFerradesComponent extends ItemStatusBaseComponent implements On
     this.viesFerradesService.getViesFerrades().subscribe({
       next: (data) => {
         this.viesOriginals = data;
-        this.vies = [...data];
+        this.viesFerrades = [...data];
         this.isLoading = false;
       },
       error: () => {
@@ -71,7 +71,7 @@ export class ViesFerradesComponent extends ItemStatusBaseComponent implements On
   }
 
   aplicarFiltre(filtres: any) {
-    this.vies = this.viesOriginals.filter((via) => {
+    this.viesFerrades = this.viesOriginals.filter((via) => {
       if (filtres.parroquia && via.Parroquia !== filtres.parroquia) {
         return false;
       }
