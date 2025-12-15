@@ -1,0 +1,23 @@
+<app-filtre [camps]="filtreCamps" (filtreCanviat)="aplicarFiltre($event)"></app-filtre>
+
+<section class="pics">
+  <div class="titol-wrapper">
+    <h2 class="titol-seccio">Pics</h2>
+  </div>
+  <app-loading *ngIf="isLoading"></app-loading>
+
+  <div class="cards" *ngIf="!isLoading && pics.length > 0">
+    <app-card *ngFor="let pic of pics" [item]="pic" type="pic" [isWishlisted]="isWishlisted(pic.id_pic, 'pic')"
+      [isActive]="isActive(pic.id_pic, 'pic', 'done')" (toggle)="toggleStatus($event.id, $event.type, $event.status)">
+
+      <div details>
+        <p><strong>Altitud:</strong> {{ pic.altitud }} m</p>
+        <p><strong>Parroquia:</strong> {{ pic.parroquia }}</p>
+      </div>
+    </app-card>
+  </div>
+
+  <div class="empty-state" *ngIf="!isLoading && pics.length === 0">
+    <p>No s'han trobat pics amb aquests filtres.</p>
+  </div>
+</section>

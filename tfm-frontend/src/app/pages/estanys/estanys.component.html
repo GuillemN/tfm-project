@@ -1,0 +1,26 @@
+<app-filtre [camps]="filtreCamps" (filtreCanviat)="aplicarFiltre($event)"></app-filtre>
+
+<section class="estanys">
+  <div class="titol-wrapper">
+    <h2 class="titol-seccio">Estanys</h2>
+  </div>
+  <app-loading *ngIf="isLoading"></app-loading>
+
+  <div class="cards" *ngIf="!isLoading && estanys.length > 0">
+    <app-card *ngFor="let estany of estanys" [item]="estany" type="estany"
+      [isWishlisted]="isWishlisted(estany.id_estany, 'estany')"
+      [isActive]="isActive(estany.id_estany, 'estany', 'done')"
+      (toggle)="toggleStatus($event.id, $event.type, $event.status)">
+
+      <div details>
+        <p><strong>Parròquia:</strong> {{ estany.parroquia }}</p>
+        <p><strong>Altitud:</strong> {{ estany.altitud }} m</p>
+      </div>
+    </app-card>
+  </div>
+
+  <div class="empty-state" *ngIf="!isLoading && estanys.length === 0">
+    <p>No s'han trobat estanys amb aquests filtres.</p>
+  </div>
+
+</section>

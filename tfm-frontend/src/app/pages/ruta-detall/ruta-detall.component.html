@@ -1,0 +1,73 @@
+<section class="detall" *ngIf="ruta">
+  <div class="capcalera">
+    <img [src]="ruta.imatge | imgUrl:'rutes'" alt="{{ ruta.nom }}" />
+    <div class="info">
+      <h1>{{ ruta.nom }}</h1>
+      <p class="descripcio">{{ ruta.descripcio }}</p>
+      <div class="dades">
+        <span>⛰️ Desnivell: {{ ruta.desnivell }} m</span>
+        <span>📏 Distància: {{ ruta.distancia_km }} km</span>
+        <span>⏱️ Temps estimat: {{ ruta.temps_estimacio }}</span>
+      </div>
+    </div>
+  </div>
+
+  <h2>Traça al mapa</h2>
+  <app-refugi-map *ngIf="ruta.json" [geojson]="ruta.json"></app-refugi-map>
+
+  <h3>Previsió meteorològica</h3>
+  <div class="previsio-carrusel-container" *ngIf="previsioFiltrada.length">
+    <button class="fletxa esquerra" (click)="scrollCarrusel(-1)">‹</button>
+    <div class="previsio-carrusel" #carrusel>
+      <div class="previsio-card" *ngFor="let previsio of previsioFiltrada">
+        <div class="data">
+          {{ previsio.data | date: 'EEEE, d MMMM' : '' : 'ca' }}<br />
+          <small>{{ previsio.data | date: 'HH:mm' : '' : 'ca' }}</small>
+        </div>
+        <img [src]="getIconUrl(previsio.icon)" [alt]="previsio.descripcio" />
+        <div class="temps">{{ previsio.temperatura.toFixed(1) }} °C</div>
+        <div class="descripcio">{{ previsio.descripcio }}</div>
+        <div class="info-extra">
+          💧 {{ previsio.pluja.toFixed(0) }} mm<br />
+          💨 {{ previsio.vent.toFixed(0) }} km/h
+        </div>
+      </div>
+    </div>
+    <button class="fletxa dreta" (click)="scrollCarrusel(1)">›</button>
+  </div>
+
+  <div *ngIf="!previsioFiltrada.length">
+    Carregant previsió...
+  </div>
+
+  <h3>Punts destacats de la ruta</h3>
+  <div class="cards">
+    <div class="card" *ngFor="let punt of puntsRuta" (mouseenter)="hoveredPuntId = punt.tipus_id"
+      (mouseleave)="hoveredPuntId = null" [routerLink]="obtenirRutaEnllac(punt)" style="cursor: pointer">
+      <div class="card-image"
+        [style.backgroundImage]="'url(' + (punt.detall.imatge | imgUrl:punt.tipus.toLowerCase()) + ')'">
+        <div class="card-title">{{ punt.detall.nom }}</div>
+
+        <div class="card-overlay">
+          <p *ngIf="punt.tipus === 'Refugis'">🏕️ Refugi</p>
+          <p *ngIf="punt.tipus === 'Estanys'">💧 Estany</p>
+          <p *ngIf="punt.tipus === 'Pics'">⛰️ Pic</p>
+        </div>
+
+        <div class="card-buttons" *ngIf="hoveredPuntId === punt.tipus_id" (click)="$event.stopPropagation()">
+          <button class="circle wishlist" (click)="toggleStatus(punt.tipus_id, punt.tipus, 'wishlist')"
+            [class.active]="isActive(punt.tipus_id, punt.tipus.toLowerCase(), 'wishlist')">
+            <img [src]="isWishlisted(punt.tipus_id, punt.tipus.toLowerCase()) 
+                    ? '/img/status/cor3.png' 
+                    : '/img/status/cor_buit.png'" alt="Afegir a desitjats" />
+          </button>
+
+          <button class="circle done" (click)="toggleStatus(punt.tipus_id, punt.tipus, 'done')"
+            [class.active]="isActive(punt.tipus_id, punt.tipus.toLowerCase(), 'done')">
+            <img src="/img/status/fet.png" alt="Afegir a fets" />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

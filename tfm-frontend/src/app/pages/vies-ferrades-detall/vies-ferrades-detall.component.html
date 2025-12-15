@@ -1,0 +1,54 @@
+<app-navbar></app-navbar>
+
+<section class="detall" *ngIf="via">
+  <div class="capcalera">
+    <img [src]="'/img/vies-ferrades/' + via.imatge" alt="{{ via.nom }}" />
+    <div class="info">
+      <h1>{{ via.nom }}</h1>
+      <p class="descripcio">{{ via.Descripcio }}</p>
+      <div class="dades">
+        <span>⛰️ Desnivell: {{ via.desnivell }} m</span>
+        <span>🏘️ {{ via.Parroquia }}</span>
+        <span>🧗‍♂️ Dificultat: {{ via.dificultat }}</span>
+        <span>⌛ Temps via: {{ via.temps_via }}</span>
+        <span>🔛 Estat: {{ via.estat === 'oberta' ? 'Oberta' : 'Tancada' }}</span>
+        <span>🚶‍♂️ Temps aproximació anada: {{ via.temps_anada }}</span>
+        <span>🚶‍♀️ Temps aproximació tornada: {{ via.temps_tornada}}</span>
+      
+      </div>
+    </div>
+  </div>
+
+  <h2>Mapa</h2>
+  <app-refugi-map
+    *ngIf="via"
+    [coordenades]="via.coordenades"
+    [nom]="via.nom"
+    [altura]="via.desnivell">
+  </app-refugi-map>
+
+  <h3>Previsió meteorològica</h3>
+  <div class="previsio-carrusel-container" *ngIf="previsioFiltrada.length">
+    <button class="fletxa esquerra" (click)="scrollCarrusel(-1)">‹</button>
+    <div class="previsio-carrusel" #carrusel>
+      <div class="previsio-card" *ngFor="let previsio of previsioFiltrada">
+        <div class="data">
+          {{ previsio.data | date: 'EEEE, d MMMM' : '' : 'ca' }}<br />
+          <small>{{ previsio.data | date: 'HH:mm' : '' : 'ca' }}</small>
+        </div>
+        <img [src]="getIconUrl(previsio.icon)" [alt]="previsio.descripcio" />
+        <div class="temps">{{ previsio.temperatura.toFixed(1) }} °C</div>
+        <div class="descripcio">{{ previsio.descripcio }}</div>
+        <div class="info-extra">
+          💧 {{ previsio.pluja.toFixed(0) }} mm<br />
+          💨 {{ previsio.vent.toFixed(0) }} km/h
+        </div>
+      </div>
+    </div>
+    <button class="fletxa dreta" (click)="scrollCarrusel(1)">›</button>
+  </div>
+
+  <div *ngIf="!previsioFiltrada.length">Carregant previsió...</div>
+</section>
+
+<app-footer></app-footer>

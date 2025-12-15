@@ -1,0 +1,28 @@
+<app-filtre [camps]="filtreCamps" (filtreCanviat)="aplicarFiltre($event)"></app-filtre>
+
+<section class="refugis">
+  <div class="titol-wrapper">
+    <h2 class="titol-seccio">Refugis</h2>
+  </div>
+  <app-loading *ngIf="isLoading"></app-loading>
+
+  <div class="cards" *ngIf="!isLoading && refugis.length > 0">
+    <app-card *ngFor="let refugi of refugis" [item]="refugi" type="refugi"
+      [isWishlisted]="isWishlisted(refugi.id_refugi, 'refugi')"
+      [isActive]="isActive(refugi.id_refugi, 'refugi', 'done')"
+      (toggle)="toggleStatus($event.id, $event.type, $event.status)">
+
+      <div details>
+        <p><strong>Parròquia:</strong> {{ refugi.parroquies }}</p>
+        <p><strong>Altura:</strong> {{ refugi.Altura }} m</p>
+        <span class="badge" [ngClass]="refugi.lliure === 1 ? 'lliure' : 'guardat'">
+          {{ refugi.lliure === 1 ? 'Lliure' : 'Guardat' }}
+        </span>
+      </div>
+    </app-card>
+  </div>
+
+  <div class="empty-state" *ngIf="!isLoading && refugis.length === 0">
+    <p>No s'han trobat refugis amb aquests filtres.</p>
+  </div>
+</section>

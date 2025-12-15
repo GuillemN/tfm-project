@@ -1,0 +1,122 @@
+@import '../../../styles/variables';
+
+.filtre {
+  background: $white;
+  padding: 2rem;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-lg;
+  max-width: 1100px;
+  margin: 2rem auto;
+  font-family: 'Inter', sans-serif;
+  animation: fadeSlideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  border: 1px solid $border-color;
+
+  @keyframes fadeSlideIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    align-items: end;
+  }
+
+  .camp {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    label {
+      font-weight: 600;
+      color: $text-main;
+      font-size: 0.9rem;
+    }
+
+    input[type='text'],
+    input[type='number'],
+    select {
+      padding: 0.75rem 1rem;
+      border: 1px solid $border-color;
+      border-radius: $radius-md;
+      font-size: 0.95rem;
+      background: $background-color;
+      color: $text-main;
+      transition: all 0.2s ease;
+
+      &:focus {
+        outline: none;
+        border-color: $primary-color;
+        background: $white;
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+      }
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      .checkbox-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.95rem;
+        color: $text-main;
+        cursor: pointer;
+
+        input[type='checkbox'] {
+          accent-color: $primary-color;
+          width: 1.2rem;
+          height: 1.2rem;
+          cursor: pointer;
+          transition: transform 0.2s ease;
+
+          &:hover {
+            transform: scale(1.1);
+          }
+        }
+      }
+    }
+  }
+
+  button[type='submit'] {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    background: $primary-color;
+    color: $white;
+    border: none;
+    border-radius: $radius-md;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    grid-column: span 2;
+    box-shadow: $shadow-sm;
+
+    &:hover {
+      background: $primary-hover;
+      transform: translateY(-1px);
+      box-shadow: $shadow-md;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}
+
+.error {
+  grid-column: 1 / -1;
+  color: $accent-color;
+  font-weight: 600;
+  margin-bottom: -1rem;
+  font-size: 0.9rem;
+}

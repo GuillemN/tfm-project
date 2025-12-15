@@ -1,0 +1,207 @@
+// Fitxer: _card.scss
+
+@import '../variables';
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 20px 0;
+
+  // Staggered animation for cards
+  @for $i from 1 through 20 {
+    .card:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.05}s;
+    }
+  }
+}
+
+.card {
+  background: var(--surface-color);
+  border-radius: $radius-lg;
+  overflow: hidden;
+  box-shadow: $shadow-md;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  height: 340px;
+  border: 1px solid var(--border-color);
+  animation: scaleIn 0.6s ease-out backwards;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: $shadow-xl;
+    border-color: rgba($primary-color, 0.3);
+
+    .card-image {
+      transform: scale(1.08);
+    }
+
+    .card-overlay {
+      background: linear-gradient(to bottom,
+          rgba(15, 23, 42, 0.8) 0%,
+          rgba(15, 23, 42, 0.4) 50%,
+          rgba(15, 23, 42, 0.9) 100%);
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card-title {
+      transform: translateY(-160px); // Move title up but keep clear of buttons
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+  }
+}
+
+.card-image {
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.card-title {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  color: $white;
+  font-size: 1.5rem;
+  font-weight: 700;
+  z-index: 2;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none; // Prevent blocking clicks
+}
+
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3); // Default slight dim
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+
+  p {
+    color: $white;
+    margin: 4px 0;
+    font-size: 0.95rem;
+    transform: translateY(20px);
+    transition: transform 0.4s ease 0.1s, opacity 0.4s ease 0.1s;
+    opacity: 0;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  }
+
+  .badge {
+    margin-top: 12px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transform: translateY(20px);
+    transition: transform 0.4s ease 0.2s, opacity 0.4s ease 0.2s;
+    opacity: 0;
+
+    &.lliure {
+      background-color: $secondary-color;
+      color: $white;
+    }
+
+    &.guardat {
+      background-color: #f59e0b; // Amber 500
+      color: $white;
+    }
+  }
+}
+
+.card:hover .card-overlay {
+
+  p,
+  .badge {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.card-buttons {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  gap: 12px;
+  z-index: 10;
+}
+
+.circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: $shadow-md;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  &:hover {
+    transform: scale(1.15) rotate(5deg);
+    background-color: $white;
+    box-shadow: $shadow-lg;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+  }
+
+  &.wishlist.active {
+    background-color: #fff1f2; // Rose 50
+    border: 2px solid $wishlist-active;
+
+    img {
+      transform: scale(1.1);
+    }
+  }
+
+  &.done.active {
+    background-color: $done-active; // Solid green
+    border: 2px solid $white;
+    box-shadow: 0 0 15px rgba($done-active, 0.5); // Green glow
+
+    img {
+      transform: scale(1.1);
+      filter: brightness(0) invert(1); // Make icon white
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

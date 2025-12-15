@@ -1,0 +1,41 @@
+<div class="card" (mouseenter)="hovered = true" (mouseleave)="hovered = false" [routerLink]="['/' + folderName, itemId]"
+    style="cursor: pointer">
+
+    <div class="card-image" [style.backgroundImage]="'url(' + (item.imatge | imgUrl:folderName) + ')'">
+
+        <div class="card-buttons" *ngIf="hovered" (click)="$event.preventDefault(); $event.stopPropagation()">
+            <!-- Wishlist Button -->
+            <button class="circle wishlist" [class.active]="isWishlisted" [class.wishlist]="true"
+                [attr.aria-label]="isWishlisted ? 'Treure de desitjats' : 'Afegir a desitjats'" title="Desitjats"
+                (click)="onToggle('wishlist', $event)">
+                <img [src]="isWishlisted ? '/img/status/cor3.png' : '/img/status/cor_buit.png'" alt="Icona desitjats" />
+            </button>
+
+            <!-- Done Button -->
+            <button class="circle done" [class.active]="isActive" [class.done]="true"
+                [attr.aria-label]="isActive ? 'Marcar com a no fet' : 'Marcar com a fet'" title="Fet"
+                (click)="onToggle('done', $event)">
+                <img src="/img/status/fet.png" alt="Icona fet" />
+            </button>
+        </div>
+
+        <div class="card-title">{{ item.nom }}</div>
+
+        <div class="card-overlay">
+            <!-- Content projection for specific details if needed, or dynamic fields -->
+            <ng-content select="[details]"></ng-content>
+
+            <!-- Default fields based on type (can be customized via content projection or inputs) -->
+            <p *ngIf="item.parroquies"><strong>Parròquia:</strong> {{ item.parroquies }}</p>
+            <p *ngIf="item.parroquia"><strong>Parròquia:</strong> {{ item.parroquia }}</p>
+            <p *ngIf="item.altitud || item.Altura"><strong>Altitud:</strong> {{ item.altitud || item.Altura }} m</p>
+            <p *ngIf="item.distancia_km"><strong>Distància:</strong> {{ item.distancia_km }} km</p>
+            <p *ngIf="item.dificultat"><strong>Dificultat:</strong> {{ item.dificultat }}</p>
+            <p *ngIf="item.desnivell"><strong>Desnivell:</strong> {{ item.desnivell }} m</p>
+
+            <span class="badge" *ngIf="item.lliure !== undefined" [ngClass]="item.lliure === 1 ? 'lliure' : 'guardat'">
+                {{ item.lliure === 1 ? 'Lliure' : 'Guardat' }}
+            </span>
+        </div>
+    </div>
+</div>

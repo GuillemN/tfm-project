@@ -1,0 +1,25 @@
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1>Descobreix Andorra</h1>
+      <p>Troba les millors rutes, pics, refugis, estanys i molt més per explorar la natura andorrana.</p>
+      <a routerLink="/rutes" class="explore-btn">Explora rutes</a>
+    </div>
+    <div class="hero-image"></div>
+  </div>
+</section>
+
+<section class="categories">
+  <h2>Categories</h2>
+  <div class="cards">
+    <div class="card" *ngFor="let cat of categories" (click)="goToCategory(cat.route)">
+      <div class="card-image" [style.backgroundImage]="'url(' + cat.image + ')'">
+        <div class="card-title">
+          {{ cat.title }}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

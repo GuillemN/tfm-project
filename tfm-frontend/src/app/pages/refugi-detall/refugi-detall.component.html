@@ -1,0 +1,62 @@
+<section class="detall" *ngIf="refugi">
+  <div class="capcalera">
+    <img [src]="refugi.imatge | imgUrl:'refugis'" alt="{{ refugi.nom }}" />
+    <div class="info">
+      <h1>{{ refugi.nom }}</h1>
+      <p class="descripcio"><span> {{ refugi.descripcio }} </span></p>
+      <div class="dades">
+        <span>⛰️ {{ refugi.Altura }} m</span>
+        <span>🏘️ {{ refugi.parroquies }} </span>
+        <span>
+          🛏️
+          {{ refugi.lliure === 1 ? 'Refugi lliure' : 'Refugi guardat' }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <h2>Mapa</h2>
+  <app-refugi-map *ngIf="refugi" [coordenades]="refugi.coordenades" [nom]="refugi.nom" [altura]="refugi.Altura">
+  </app-refugi-map>
+  <h3>Previsió meteorològica</h3>
+
+  <div class="previsio-carrusel-container" *ngIf="previsioFiltrada.length">
+    <button class="fletxa esquerra" (click)="scrollCarrusel(-1)">‹</button>
+
+    <div class="previsio-carrusel" #carrusel>
+      <div class="previsio-card" *ngFor="let previsio of previsioFiltrada">
+        <div class="data">
+          {{ previsio.data | date: 'EEEE, d MMMM' : '' : 'ca' }}<br />
+          <small>{{ previsio.data | date: 'HH:mm' : '' : 'ca' }}</small>
+        </div>
+        <img [src]="getIconUrl(previsio.icon)" [alt]="previsio.descripcio" />
+        <div class="temps">{{ previsio.temperatura.toFixed(1) }} °C</div>
+        <div class="descripcio">{{ previsio.descripcio }}</div>
+        <div class="info-extra">
+          💧 {{ previsio.pluja.toFixed(0) }} mm<br />
+          💨 {{ previsio.vent.toFixed(0) }} km/h
+        </div>
+      </div>
+    </div>
+
+    <button class="fletxa dreta" (click)="scrollCarrusel(1)">›</button>
+  </div>
+
+  <div *ngIf="!previsioFiltrada.length">
+    Carregant previsió...
+  </div>
+
+  <h3>Rutes que passen per aquest refugi</h3>
+  <div class="cards" *ngIf="rutesDelRefugi.length">
+    <div class="card" *ngFor="let ruta of rutesDelRefugi" [routerLink]="['/rutes', ruta.id]">
+      <div class="card-image" [style.backgroundImage]="'url(' + (ruta.imatge | imgUrl:'rutes') + ')'">
+        <div class="card-title">{{ ruta.nom }}</div>
+        <div class="card-overlay">
+          <p><strong>Dificultat:</strong> {{ ruta.dificultat }}</p>
+          <p><strong>Distància:</strong> {{ ruta.distancia_km }} km</p>
+          <p><strong>Desnivell:</strong> {{ ruta.desnivell }} m</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

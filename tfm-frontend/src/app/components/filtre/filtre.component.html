@@ -1,0 +1,30 @@
+<div class="filtre">
+  <form (ngSubmit)="aplicarFiltre()">
+    <div *ngIf="error" class="error">
+  {{ error }}
+    </div>
+    <div *ngFor="let camp of camps" class="camp">
+      <label>{{ camp.etiqueta }}</label>
+      <ng-container [ngSwitch]="camp.tipus">
+        <input *ngSwitchCase="'text'" [(ngModel)]="valors[camp.clau]" [name]="camp.clau" type="text" />
+        <input *ngSwitchCase="'number'" [(ngModel)]="valors[camp.clau]" [name]="camp.clau" type="number" />
+        <select *ngSwitchCase="'select'" [(ngModel)]="valors[camp.clau]" [name]="camp.clau">
+          <option value="">-- Qualsevol --</option>
+          <option *ngFor="let opcio of camp.opcions" [value]="opcio">{{ opcio }}</option>
+        </select>
+        <div *ngSwitchCase="'checkbox'" class="checkbox-group">
+          <label *ngFor="let opcio of camp.opcions" class="checkbox-item">
+            <input
+              type="checkbox"
+              [value]="opcio"
+              [checked]="valors[camp.clau]?.includes(opcio)"
+              (change)="actualitzaCheckbox(camp.clau, opcio, $event)"
+            />
+            {{ opcio }}
+          </label>
+        </div>
+      </ng-container>
+    </div>
+    <button type="submit">Aplicar filtre</button>
+  </form>
+</div>

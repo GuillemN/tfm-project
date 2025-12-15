@@ -1,0 +1,33 @@
+<section class="perfil">
+  <ng-container *ngIf="!isLoading">
+    <div class="bloc" *ngFor="let seccio of seccions">
+      <h2>{{ seccio.titol }}</h2>
+
+      <div class="cards" *ngIf="seccio.items.length > 0; else emptyState">
+        <app-card *ngFor="let item of seccio.items" [item]="item" [type]="seccio.type" [status]="seccio.status"
+          [isWishlisted]="seccio.status === 'wishlist' || isWishlisted(getItemId(item, seccio.type), seccio.type)"
+          [isActive]="seccio.status === 'done'"
+          (toggle)="handleToggleClick($event.id, $event.type, $event.status, $event)">
+
+          <div details>
+            <p *ngIf="item.parroquies"><strong>Parròquia:</strong> {{ item.parroquies }}</p>
+            <p *ngIf="item.parroquia"><strong>Parròquia:</strong> {{ item.parroquia }}</p>
+            <p *ngIf="item.capacitat"><strong>Capacitat:</strong> {{ item.capacitat }}</p>
+            <p *ngIf="item.altitud"><strong>Altitud:</strong> {{ item.altitud }} m</p>
+            <p *ngIf="item.distancia_km"><strong>Distància:</strong> {{ item.distancia_km }} km</p>
+            <p *ngIf="item.temps_estimacio"><strong>Temps estimat:</strong> {{ item.temps_estimacio }}</p>
+            <span class="badge" *ngIf="item.lliure !== undefined" [ngClass]="item.lliure ? 'lliure' : 'guardat'">
+              {{ item.lliure ? 'Lliure' : 'Guardat' }}
+            </span>
+          </div>
+        </app-card>
+      </div>
+
+      <ng-template #emptyState>
+        <div class="empty-state">
+          <p>Encara no tens cap element en aquesta llista.</p>
+        </div>
+      </ng-template>
+    </div>
+  </ng-container>
+</section>

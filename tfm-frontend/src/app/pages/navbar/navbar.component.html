@@ -1,0 +1,27 @@
+<nav class="navbar">
+  <div class="navbar-left">
+    <a routerLink="/dashboard">
+      <img src="/img/logo/logo.png" alt="Logo" class="logo" />
+    </a>
+    <ul class="nav-links">
+      <li><a routerLink="/dashboard">Inici</a></li>
+      <li><a routerLink="/rutes">Rutes</a></li>
+      <li><a routerLink="/pics">Pics</a></li>
+      <li><a routerLink="/estanys">Estanys</a></li>
+      <li><a routerLink="/refugis">Refugis</a></li>
+      <li><a routerLink="/vies-ferrades">Vies ferades</a></li>
+    </ul>
+  </div>
+
+  <div class="user-info">
+    <button class="theme-toggle" (click)="toggleTheme()"
+      [attr.aria-label]="isDarkMode ? 'Activar mode clar' : 'Activar mode fosc'">
+      <i class="fas" [class.fa-sun]="isDarkMode" [class.fa-moon]="!isDarkMode"></i>
+    </button>
+    <a routerLink="/perfil" class="perfil-link">
+      <i class="fas fa-user"></i> Perfil
+    </a>
+    <span>Hola, {{ userName }}</span>
+    <button class="logout-button" (click)="logout()">Logout</button>
+  </div>
+</nav>

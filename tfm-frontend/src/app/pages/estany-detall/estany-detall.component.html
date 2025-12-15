@@ -1,0 +1,72 @@
+<section class="detall" *ngIf="estany">
+  <div class="capcalera">
+    <img [src]="estany.imatge | imgUrl:'estanys'" [alt]="estany.nom" />
+    <div class="info">
+      <h1>{{ estany.nom }}</h1>
+      <p class="descripcio"><span> {{ estany.descripcio }} </span></p>
+
+      <div class="dades">
+        <span>⛰️ {{ estany.altitud }} m</span>
+        <span>💧 {{ estany.superficie }} ha</span>
+        <span>🏘️ {{ estany.parroquia }} </span>
+      </div>
+    </div>
+  </div>
+
+  <h2>Mapa</h2>
+  <app-refugi-map *ngIf="estany" [coordenades]="estany.coordenades" [nom]="estany.nom"
+    [altura]="estany.altitud"></app-refugi-map>
+
+  <h3>Previsió meteorològica</h3>
+  <div *ngIf="!previsioFiltrada.length">Carregant previsió...</div>
+  <div class="previsio-carrusel-container" *ngIf="previsioFiltrada.length">
+    <button class="fletxa esquerra" (click)="scrollCarrusel(-1)">‹</button>
+    <div class="previsio-carrusel" #carrusel>
+      <div class="previsio-card" *ngFor="let previsio of previsioFiltrada">
+        <div class="data">
+          {{ previsio.data | date: 'EEEE, d MMMM' : '' : 'ca' }}<br />
+          <small>{{ previsio.data | date: 'HH:mm' : '' : 'ca' }}</small>
+        </div>
+        <img [src]="getIconUrl(previsio.icon)" [alt]="previsio.descripcio" />
+        <div class="temps">{{ previsio.temperatura.toFixed(1) }} °C</div>
+        <div class="descripcio">{{ previsio.descripcio }}</div>
+        <div class="info-extra">
+          💧 {{ previsio.pluja.toFixed(0) }} mm<br />
+          💨 {{ previsio.vent.toFixed(0) }} km/h
+        </div>
+      </div>
+    </div>
+    <button class="fletxa dreta" (click)="scrollCarrusel(1)">›</button>
+  </div>
+  <h3>Rutes que passen per aquest estany</h3>
+  <div class="cards" *ngIf="rutes.length">
+    <div class="card" *ngFor="let ruta of rutes" [routerLink]="['/rutes', ruta.id]" (mouseenter)="hoveredRuta = ruta.id"
+      (mouseleave)="hoveredRuta = null">
+
+      <div class="card-image" [style.backgroundImage]="'url(' + (ruta.imatge | imgUrl:'rutes') + ')'">
+
+        <div class="card-buttons" *ngIf="hoveredRuta === ruta.id" (click)="$event.stopPropagation()">
+          <button class="circle wishlist" (click)="toggleStatus(ruta.id, 'wishlist'); $event.preventDefault()"
+            [class.active]="isActive(ruta.id, 'wishlist')">
+            <img [src]="isWishlisted(ruta.id) ? '/img/status/cor3.png' : '/img/status/cor_buit.png'"
+              alt="Afegir a desitjats">
+          </button>
+          <button class="circle done" (click)="toggleStatus(ruta.id, 'done'); $event.preventDefault()"
+            [class.active]="isActive(ruta.id, 'done')">
+            <img src="/img/status/fet.png" alt="Afegir a fets">
+          </button>
+        </div>
+
+        <div class="card-title">{{ ruta.nom }}</div>
+        <div class="card-overlay">
+          <p><strong>Dificultat:</strong> {{ ruta.dificultat }}</p>
+          <p><strong>Distància:</strong> {{ ruta.distancia_km }} km</p>
+          <p><strong>Desnivell:</strong> {{ ruta.desnivell }} m</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+</section>

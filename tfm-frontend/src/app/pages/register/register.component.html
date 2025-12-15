@@ -1,0 +1,101 @@
+<div class="register-container">
+    <h2>Alpinisme Andorra</h2>
+    <p class="subtitle">Crea un compte nou</p>
+  
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+  
+    <form (ngSubmit)="onSubmit()" #registerForm="ngForm" novalidate>
+      <input
+        type="text"
+        name="nom"
+        [(ngModel)]="nom"
+        placeholder="Nom complet"
+        required
+        #nomInput="ngModel"
+      />
+      <div class="error" *ngIf="nomInput.errors?.['required'] && nomInput.touched">
+        El nom és obligatori.
+      </div>
+  
+      <input
+        type="email"
+        name="email"
+        [(ngModel)]="email"
+        placeholder="E-mail"
+        required
+        email
+        #emailInput="ngModel"
+      />
+      <div class="error" *ngIf="emailInput.errors?.['required'] && emailInput.touched">
+        El correu és obligatori.
+      </div>
+      <div class="error" *ngIf="emailInput.errors?.['email'] && emailInput.touched">
+        El correu no és vàlid.
+      </div>
+  
+      <div class="password-group">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          name="contrasenya"
+          [(ngModel)]="contrasenya"
+          placeholder="Contrasenya"
+          required
+          minlength="8"
+          #passInput="ngModel"
+        />
+        <button
+          type="button"
+          (click)="showPassword = !showPassword"
+          class="toggle-password"
+          aria-label="Mostra/Amaga contrasenya"
+        >
+          <i class="fas" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+        </button>
+      </div>
+      <div class="error" *ngIf="passInput.errors?.['required'] && passInput.touched">
+        La contrasenya és obligatòria.
+      </div>
+      <div class="error" *ngIf="passInput.errors?.['minlength'] && passInput.touched">
+        Ha de tenir com a mínim 8 caràcters.
+      </div>
+  
+      <div class="password-group">
+        <input
+          [type]="showConfirmPassword ? 'text' : 'password'"
+          name="confirmarContrasenya"
+          [(ngModel)]="confirmarContrasenya"
+          placeholder="Confirmar contrasenya"
+          required
+          #confirmInput="ngModel"
+        />
+        <button
+          type="button"
+          (click)="showConfirmPassword = !showConfirmPassword"
+          class="toggle-password"
+          aria-label="Mostra/Amaga confirmar contrasenya"
+        >
+          <i class="fas" [ngClass]="showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+        </button>
+      </div>
+      <div class="error" *ngIf="confirmInput.errors?.['required'] && confirmInput.touched">
+        Cal confirmar la contrasenya.
+      </div>
+      <div class="error" *ngIf="contrasenya !== confirmarContrasenya && confirmInput.touched">
+        Les contrasenyes no coincideixen.
+      </div>
+  
+      <button
+        type="submit"
+        [disabled]="registerForm.invalid || contrasenya !== confirmarContrasenya"
+      >
+        Registrar-se
+      </button>
+    </form>
+  
+    <div class="login-link">
+      Ja tens compte? <a routerLink="/login">Inicia sessió</a>
+    </div>
+  </div>
+  

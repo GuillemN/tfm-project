@@ -1,0 +1,46 @@
+<div class="login-container">
+    <div *ngIf="successMessage" class="success-message">
+      {{ successMessage }}
+    </div>
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+  
+    <h2>Alpinisme Andorra</h2>
+    <p class="subtitle">Accedeix al teu compte</p>
+  
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <input
+        type="email"
+        name="email"
+        [(ngModel)]="email"
+        placeholder="E-mail"
+        required
+      />
+  
+      <div class="password-group">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          name="password"
+          [(ngModel)]="password"
+          placeholder="Contrasenya"
+          required
+        />
+        <button
+          type="button"
+          (click)="showPassword = !showPassword"
+          class="toggle-password"
+          aria-label="Mostra/Amaga contrasenya"
+        >
+          <i class="fas" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+        </button>
+      </div>
+  
+      <button type="submit">Iniciar sessió</button>
+    </form>
+  
+    <div class="register-link">
+      Vols crear un compte? <a routerLink="/register">Registra’t</a>
+    </div>
+  </div>
+  

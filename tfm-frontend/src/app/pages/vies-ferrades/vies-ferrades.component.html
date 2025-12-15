@@ -1,0 +1,25 @@
+<app-filtre [camps]="filtreCamps" (filtreCanviat)="aplicarFiltre($event)"></app-filtre>
+
+<section class="vies-ferrades">
+  <div class="titol-wrapper">
+    <h2 class="titol-seccio">Vies Ferrades</h2>
+  </div>
+  <app-loading *ngIf="isLoading"></app-loading>
+
+  <div class="cards" *ngIf="!isLoading && viesFerrades.length > 0">
+    <app-card *ngFor="let via of viesFerrades" [item]="via" type="via-ferrada"
+      [isWishlisted]="isWishlisted(via.id_via_ferrada, 'via-ferrada')"
+      [isActive]="isActive(via.id_via_ferrada, 'via-ferrada', 'done')"
+      (toggle)="toggleStatus($event.id, $event.type, $event.status)">
+
+      <div details>
+        <p><strong>Parròquia:</strong> {{ via.parroquia }}</p>
+        <p><strong>Dificultat:</strong> {{ via.dificultat }}</p>
+      </div>
+    </app-card>
+  </div>
+
+  <div class="empty-state" *ngIf="!isLoading && viesFerrades.length === 0">
+    <p>No s'han trobat vies ferrades amb aquests filtres.</p>
+  </div>
+</section>

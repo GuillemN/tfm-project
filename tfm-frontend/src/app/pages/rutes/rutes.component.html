@@ -1,0 +1,24 @@
+<app-filtre [camps]="filtreCamps" (filtreCanviat)="aplicarFiltre($event)"></app-filtre>
+
+<section class="rutes">
+  <div class="titol-wrapper">
+    <h2 class="titol-seccio">Rutes</h2>
+  </div>
+  <app-loading *ngIf="isLoading"></app-loading>
+
+  <div class="cards" *ngIf="!isLoading && rutes.length > 0">
+    <app-card *ngFor="let ruta of rutes" [item]="ruta" type="ruta" [isWishlisted]="isWishlisted(ruta.id, 'ruta')"
+      [isActive]="isActive(ruta.id, 'ruta', 'done')" (toggle)="toggleStatus($event.id, $event.type, $event.status)">
+
+      <div details>
+        <p><strong>Dificultat:</strong> {{ ruta.dificultat }}</p>
+        <p><strong>Distància:</strong> {{ ruta.distancia_km }} km</p>
+        <p><strong>Desnivell:</strong> {{ ruta.desnivell }} m</p>
+      </div>
+    </app-card>
+  </div>
+
+  <div class="empty-state" *ngIf="!isLoading && rutes.length === 0">
+    <p>No s'han trobat rutes amb aquests filtres.</p>
+  </div>
+</section>
